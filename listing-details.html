@@ -290,11 +290,11 @@
           <div class="form-group mb-2">
             <label class="form-label" style="font-size: 13px;">Select reservation quantity:</label>
             <div class="stepper-row">
-              <button type="button" class="stepper-btn">−</button>
+              <button type="button" class="stepper-btn" id="ld-qty-dec" aria-label="Decrease quantity">−</button>
               <div style="flex: 1; text-align: center; font-size: 16px; font-weight: 800; color: #0F172A;">
-                2 <span style="font-size: 13px; font-weight: 600; color: #64748B;">portions</span>
+                <span id="ld-qty-value">2</span> <span style="font-size: 13px; font-weight: 600; color: #64748B;">portions</span>
               </div>
-              <button type="button" class="stepper-btn">+</button>
+              <button type="button" class="stepper-btn" id="ld-qty-inc" aria-label="Increase quantity">+</button>
             </div>
             <div style="font-size: 11px; color: #64748B; line-height: 1.35;">
               ⓘ Max 4 portions per recipient profile to ensure fair neighborhood distribution.
@@ -329,8 +329,8 @@
           </div>
 
           <!-- Request button -->
-          <a href="verification.html" class="btn btn-secondary" style="width: 100%; background: #4A0E17; color: #FFF; font-weight: 800; font-size: 14px; padding: 14px; justify-content: center; text-decoration: none; margin-bottom: 16px;">
-            Request Food (2 portions) →
+          <a href="verification.html" class="btn btn-secondary" id="ld-request-btn" style="width: 100%; background: #4A0E17; color: #FFF; font-weight: 800; font-size: 14px; padding: 14px; justify-content: center; text-decoration: none; margin-bottom: 16px;">
+            Request Food (<span id="ld-btn-qty">2</span> portions) →
           </a>
 
           <!-- Guarantees -->
@@ -402,5 +402,33 @@
     </a>
   </div>
 
+<script>
+  (function () {
+    const MIN = 1, MAX = 4;
+    let qty = 2;
+    const valEl  = document.getElementById('ld-qty-value');
+    const btnQty = document.getElementById('ld-btn-qty');
+    const decBtn = document.getElementById('ld-qty-dec');
+    const incBtn = document.getElementById('ld-qty-inc');
+
+    function render() {
+      valEl.textContent  = qty;
+      btnQty.textContent = qty;
+      decBtn.disabled = qty <= MIN;
+      incBtn.disabled = qty >= MAX;
+      decBtn.style.opacity = qty <= MIN ? '0.4' : '1';
+      incBtn.style.opacity = qty >= MAX ? '0.4' : '1';
+    }
+
+    decBtn.addEventListener('click', function () {
+      if (qty > MIN) { qty--; render(); }
+    });
+    incBtn.addEventListener('click', function () {
+      if (qty < MAX) { qty++; render(); }
+    });
+
+    render();
+  })();
+</script>
 </body>
 </html>

@@ -257,12 +257,12 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">
             <div>
               <label class="form-label" style="font-size: 13px; margin: 0 0 2px 0;">Portions to reserve</label>
-              <div class="text-muted" style="font-size: 12px;">Requesting <strong>4 portions</strong> (approx. 2 loaves + 4 focaccia squares). Fair-share policy guarantees equal distribution.</div>
+              <div class="text-muted" style="font-size: 12px;">Requesting <strong id="v-qty-desc">4 portions</strong> (approx. 2 loaves + 4 focaccia squares). Fair-share policy guarantees equal distribution.</div>
             </div>
             <div style="display: inline-flex; align-items: center; gap: 8px;">
-              <button type="button" class="stepper-btn">−</button>
-              <span style="font-size: 18px; font-weight: 800; padding: 0 12px; color: #0F172A;">4</span>
-              <button type="button" class="stepper-btn">+</button>
+              <button type="button" class="stepper-btn" id="v-qty-dec" aria-label="Decrease quantity">−</button>
+              <span id="v-qty-value" style="font-size: 18px; font-weight: 800; padding: 0 12px; color: #0F172A;">4</span>
+              <button type="button" class="stepper-btn" id="v-qty-inc" aria-label="Increase quantity">+</button>
             </div>
           </div>
 
@@ -491,5 +491,33 @@
     </a>
   </div>
 
+<script>
+  (function () {
+    const MIN = 1, MAX = 4;
+    let qty = 4;
+    const valEl  = document.getElementById('v-qty-value');
+    const descEl = document.getElementById('v-qty-desc');
+    const decBtn = document.getElementById('v-qty-dec');
+    const incBtn = document.getElementById('v-qty-inc');
+
+    function render() {
+      valEl.textContent  = qty;
+      descEl.textContent = qty + ' portion' + (qty !== 1 ? 's' : '');
+      decBtn.disabled = qty <= MIN;
+      incBtn.disabled = qty >= MAX;
+      decBtn.style.opacity = qty <= MIN ? '0.4' : '1';
+      incBtn.style.opacity = qty >= MAX ? '0.4' : '1';
+    }
+
+    decBtn.addEventListener('click', function () {
+      if (qty > MIN) { qty--; render(); }
+    });
+    incBtn.addEventListener('click', function () {
+      if (qty < MAX) { qty++; render(); }
+    });
+
+    render();
+  })();
+</script>
 </body>
 </html>

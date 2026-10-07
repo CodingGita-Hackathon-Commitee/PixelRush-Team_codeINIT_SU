@@ -250,11 +250,11 @@
             <label class="form-label" style="font-size: 13px;">Available quantity *</label>
             <div class="flex items-center gap-3">
               <div class="stepper-control">
-                <button type="button" class="stepper-btn">−</button>
-                <span style="font-size: 16px; font-weight: 800; padding: 0 16px; color: #0F172A;">14</span>
-                <button type="button" class="stepper-btn">+</button>
+                <button type="button" class="stepper-btn" id="cl-qty-dec" aria-label="Decrease quantity">−</button>
+                <span id="cl-qty-value" style="font-size: 16px; font-weight: 800; padding: 0 16px; color: #0F172A;">14</span>
+                <button type="button" class="stepper-btn" id="cl-qty-inc" aria-label="Increase quantity">+</button>
               </div>
-              <span class="text-muted" style="font-size: 12.5px;">14 portions available for instant reservation</span>
+              <span class="text-muted" id="cl-qty-desc" style="font-size: 12.5px;">14 portions available for instant reservation</span>
             </div>
           </div>
         </div>
@@ -491,5 +491,42 @@
     </a>
   </div>
 
+<script>
+  (function () {
+    const MIN = 1, MAX = 999;
+    let qty = 14;
+    const uomLabels = { portions: 'portions', kg: 'kg' };
+    const valEl  = document.getElementById('cl-qty-value');
+    const descEl = document.getElementById('cl-qty-desc');
+    const decBtn = document.getElementById('cl-qty-dec');
+    const incBtn = document.getElementById('cl-qty-inc');
+
+    function getUOM() {
+      const checked = document.querySelector('input[name="cl_uom"]:checked');
+      return checked ? (checked.id === 'uom-kg' ? 'kg' : 'portions') : 'portions';
+    }
+
+    function render() {
+      const unit = getUOM();
+      valEl.textContent  = qty;
+      descEl.textContent = qty + ' ' + unit + ' available for instant reservation';
+      decBtn.disabled = qty <= MIN;
+      decBtn.style.opacity = qty <= MIN ? '0.4' : '1';
+    }
+
+    decBtn.addEventListener('click', function () {
+      if (qty > MIN) { qty--; render(); }
+    });
+    incBtn.addEventListener('click', function () {
+      if (qty < MAX) { qty++; render(); }
+    });
+
+    document.querySelectorAll('input[name="cl_uom"]').forEach(function(r) {
+      r.addEventListener('change', render);
+    });
+
+    render();
+  })();
+</script>
 </body>
 </html>
