@@ -82,6 +82,15 @@
         grid-template-columns: 1fr;
       }
     }
+    @media (max-width: 480px) {
+      /* Collapse all inline 2-col form grids to 1-col on small phones */
+      [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+      .v-card {
+        padding: 16px;
+      }
+    }
   </style>
 </head>
 <body style="background-color: var(--color-background);">

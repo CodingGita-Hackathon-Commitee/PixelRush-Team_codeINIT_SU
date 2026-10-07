@@ -694,11 +694,13 @@ select.form-input, select.input-field {
 .items-start { align-items: flex-start; }
 .justify-between { justify-content: space-between; }
 .justify-center { justify-content: center; }
+.flex-wrap { flex-wrap: wrap; }
 .gap-1 { gap: var(--spacing-1); }
 .gap-2 { gap: var(--spacing-2); }
 .gap-3 { gap: var(--spacing-3); }
 .gap-4 { gap: var(--spacing-4); }
 .gap-6 { gap: var(--spacing-6); }
+.ml-auto { margin-left: auto; }
 
 .mt-2 { margin-top: var(--spacing-2); }
 .mt-4 { margin-top: var(--spacing-4); }
@@ -713,14 +715,76 @@ select.form-input, select.input-field {
 .text-small { font-size: 13px; }
 
 /* ============================
+   MISSING PAGE-LEVEL CLASSES
+   ============================ */
+
+/* page-main: wraps main content below sticky navbar */
+.page-main {
+  padding-top: var(--spacing-8);
+  padding-bottom: var(--spacing-8);
+  min-height: calc(100vh - 64px);
+}
+
+/* site-footer: shared footer strip across all pages */
+.site-footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: 16px var(--spacing-8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+.site-footer a {
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.site-footer a:hover { color: var(--color-text); }
+
+/* btn-dark: navy action button used on listing cards */
+.btn-dark {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+.btn-dark:hover {
+  background-color: var(--color-primary-light);
+  color: #FFFFFF;
+}
+
+/* ============================
+   CARD BUTTON ALIGNMENT
+   Push reserve button to the bottom of every card so all
+   buttons in a row sit at the same vertical level.
+   ============================ */
+.listing-card__body > .btn {
+  margin-top: auto;
+}
+
+/* ============================
+   OVERFLOW PROTECTION
+   ============================ */
+/* Analytics heatmap table horizontal scroll */
+.heatmap-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ============================
    RESPONSIVE MEDIA QUERIES
    ============================ */
+
+/* 1024px – tablet landscape: 2-col listing grid */
 @media (max-width: 1024px) {
   .grid-listings {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* 860px – tablet portrait: hide sidebar nav, show mobile nav */
 @media (max-width: 860px) {
   .feed-layout {
     grid-template-columns: 1fr;
@@ -730,6 +794,7 @@ select.form-input, select.input-field {
   }
   .navbar {
     padding: 0 var(--spacing-4);
+    gap: var(--spacing-3);
   }
   .nav-links {
     display: none;
@@ -737,13 +802,91 @@ select.form-input, select.input-field {
   .mobile-nav {
     display: flex;
   }
+  /* Ensure page content isn't hidden behind mobile bottom nav */
+  .page-main {
+    padding-bottom: 80px;
+  }
+  /* Shrink "Share surplus" button slightly to avoid navbar overflow */
+  .nav-actions .btn,
+  .nav-actions .btn-sm,
+  .nav-actions .btn-primary {
+    font-size: 12px;
+    padding: 0 var(--spacing-3);
+  }
+  .site-footer {
+    padding: 12px var(--spacing-4);
+  }
 }
 
+/* 768px – large phones */
+@media (max-width: 768px) {
+  .nav-actions {
+    gap: var(--spacing-2);
+  }
+}
+
+/* 640px – standard mobile: reduce auth page padding */
+@media (max-width: 640px) {
+  .auth-header {
+    padding: 12px 16px;
+  }
+}
+
+/* 600px – small phones: single-column card grid */
 @media (max-width: 600px) {
   .grid-listings {
     grid-template-columns: 1fr;
   }
   .container {
     padding: 0 var(--spacing-4);
+  }
+  .page-main {
+    padding-top: var(--spacing-6);
+  }
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 11.5px;
+  }
+}
+
+/* 480px – small phones: tighten navbar elements */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 12px;
+    gap: var(--spacing-2);
+  }
+  .nav-actions .btn,
+  .nav-actions .btn-sm,
+  .nav-actions .btn-primary {
+    height: 32px;
+    padding: 0 10px;
+    font-size: 11.5px;
+  }
+  .nav-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 11px;
+  }
+  .nav-icon-btn {
+    width: 32px;
+    height: 32px;
+  }
+  .listing-card__image {
+    height: 170px;
+  }
+}
+
+/* 375px – very small phones (iPhone SE) */
+@media (max-width: 375px) {
+  .listing-card__title {
+    font-size: 15px;
+  }
+  .listing-card__image {
+    height: 155px;
+  }
+  .site-footer {
+    font-size: 11px;
   }
 }

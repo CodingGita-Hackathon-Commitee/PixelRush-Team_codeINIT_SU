@@ -47,6 +47,14 @@
         grid-template-columns: 1fr;
       }
     }
+    @media (max-width: 480px) {
+      [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+      .ld-card {
+        padding: 16px;
+      }
+    }
   </style>
 </head>
 <body style="background-color: var(--color-background);">

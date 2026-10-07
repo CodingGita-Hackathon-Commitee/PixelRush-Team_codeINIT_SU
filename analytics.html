@@ -140,6 +140,18 @@
         grid-template-columns: 1fr;
       }
     }
+    @media (max-width: 480px) {
+      .heatmap-grid th,
+      .heatmap-grid td {
+        font-size: 10px;
+        padding: 7px 2px;
+      }
+      .heatmap-grid th:first-child,
+      .heatmap-grid td:first-child {
+        font-size: 9.5px;
+        width: 80px;
+      }
+    }
   </style>
 </head>
 <body style="background-color: var(--color-background);">
@@ -463,6 +475,7 @@
             </div>
           </div>
 
+          <div class="heatmap-table-wrap">
           <table class="heatmap-grid mb-3">
             <thead>
               <tr>
@@ -501,6 +514,7 @@
               </tr>
             </tbody>
           </table>
+          </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 12px; border-top: 1px solid var(--color-border); padding-top: 12px;">
             <div class="flex items-start gap-2">

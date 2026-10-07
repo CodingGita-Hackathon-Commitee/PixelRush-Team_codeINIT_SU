@@ -169,6 +169,15 @@
         display: none;
       }
     }
+
+    /* Override inline flex values on filter inputs when stacking */
+    @media (max-width: 600px) {
+      .filter-inputs-row > * {
+        flex: none !important;
+        width: 100%;
+        min-width: 0;
+      }
+    }
   </style>
 </head>
 <body>
